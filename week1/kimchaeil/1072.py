@@ -5,20 +5,16 @@ def cal_newz(alpha): #alpha만큼 게임을 더 했을 때의 승률 계산 함�
 
 def binary_search(low, high): #이진탐색 정의
     mid = (low+high)//2
+    result = -1
     while low <= high:
         newz = cal_newz(mid)
-        if newz - z == 1:
-            next_mid = binary_search(low, mid-1)
-            if next_mid == -1:
-                return mid
-            else:
-                return next_mid
-        elif newz - z > 1:
+        if newz - z >= 1:
+            result = mid
             high = mid-1
         else:
             low = mid+1
         mid = (low+high)//2
-    return -1
+    return result
 
 global x, y, z #총 게임수, 승수, 승률을 각각 x,y,z
 x,y = map(int, input().split()) #x와 y를 입력
