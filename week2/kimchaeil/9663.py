@@ -1,3 +1,5 @@
+#9663번 문제 (N-Queens)
+#백트래킹 이용
 import sys
 input = sys.stdin.readline
 
@@ -19,9 +21,9 @@ def back_tracking(depth):
 N = int(input())
 cnt=0
 
-available_column=[True]*N
-available_upright=[True]*(2*N-1)
-available_downright=[True]*(2*N-1)
+available_column=[True]*N #인덱스번째 column에 퀸을 놓을 수 있는가
+available_upright=[True]*(2*N-1) #row+column이 인덱스값인 오른쪽위를 향하는 대각선에 퀸을 놓을 수 있는가
+available_downright=[True]*(2*N-1) #row-column(최소 -(n-1), 최대 n-1)이 인덱스값+(n-1)인 오른쪽아래를 향하는 대각선에 퀸을 놓을 수 있는가
 
 back_tracking(0)
 print(cnt)
