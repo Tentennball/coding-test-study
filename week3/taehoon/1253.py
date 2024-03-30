@@ -8,7 +8,7 @@ for i in range(N):
 A.sort()
 
 left, right = 0, 1
-ans = 1e9
+ans = 2e9
 
 while(right < N):
     if(A[right]-A[left]<M):
