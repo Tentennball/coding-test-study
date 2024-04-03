@@ -12,6 +12,8 @@ for _ in range(N):
 for via in range(N):
     for start in range(N):
         for end in range(N):
+            if mt[start][end]==1:
+                continue
             if mt[start][via]+mt[via][end]>1:
                 mt[start][end]=1
 
