@@ -9,9 +9,12 @@ import java.util.StringTokenizer;
 
 public class test2251 {
     static boolean isVisited[][][];
-    static ArrayList<Integer>list = new ArrayList<>();
-    static Queue<Node> q = new LinkedList<>();
     static int A, B, C;
+    
+    static ArrayList<Integer>list = new ArrayList<>();
+    static ArrayList<int[]>ans = new ArrayList<>();
+    static Queue<int[]> q = new LinkedList<>();
+    
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -22,69 +25,65 @@ public class test2251 {
         C = Integer.parseInt(st.nextToken());
         isVisited = new boolean[A+1][B+1][C+1];
         
-        q.add(new Node(0,0,C));	// CÀÇ ¿ë·®¸¸ °¡µæÂ÷ÀÖÀ½
+        q.add(new int[] {0,0,C});	// Cì˜ ìš©ëŸ‰ë§Œ ê°€ë“ì°¨ìˆìŒ
         bfs();
         
-        Collections.sort(list);	// ¿À¸§Â÷¼øÀ¸·Î Ãâ·Â
+        Collections.sort(list);	// ì˜¤ë¦„ì°¨ìˆœìœ¼ë¡œ ì¶œë ¥
         for(int i=0; i<list.size(); i++) {
             System.out.print(list.get(i)+" ");
         }
     }
     public static void bfs() {
     	while(!q.isEmpty()) {
-            Node node = q.poll();
-            if(isVisited[node.a][node.b][node.c]) {
+            int[]node = q.poll();
+            
+            if(isVisited[node[0]][node[1]][node[2]]) {
                 continue;
             }
-            if(node.a==0) {	// A ¹°ÅëÀÌ ºñ¾úÀ» °æ¿ì
-                list.add(node.c);
-            }
-            isVisited[node.a][node.b][node.c] = true;
             
-            if(node.a+node.b<=A) {
-                q.add(new Node(node.a+node.b,0,node.c));
+            if(node[0]==0) {	// A ë¬¼í†µì´ ë¹„ì—ˆì„ ê²½ìš°
+                list.add(node[2]);
+            }
+            
+            
+            isVisited[node[0]][node[1]][node[2]] = true;
+            
+            if(node[0]+node[1]<=A) {
+                q.add(new int[] {node[0]+node[1], 0, node[2]});
             }
             else {
-                q.add(new Node(A,node.b+node.a-A,node.c));
+                q.add(new int[] {A ,node[1]+node[0]-A, node[2]});
             }
-            if(node.a+node.c<=A) {
-                q.add(new Node(node.a+node.c,node.b,0));
-            }
-            else {
-                q.add(new Node(A,node.b,node.c+node.a-A));
-            }
-            if(node.b+node.a<=B) {
-                q.add(new Node(0,node.a+node.b,node.c));
+            if(node[0]+node[2]<=A) {
+                q.add(new int[] {node[0]+node[2],node[1],0});
             }
             else {
-                q.add(new Node(node.a+node.b-B,B,node.c));
+                q.add(new int[] {A,node[1],node[2]+node[0]-A});
             }
-            if(node.b+node.c<=B) {
-                q.add(new Node(node.a,node.b+node.c,0));
-            }
-            else {
-                q.add(new Node(node.a,B,node.c+node.b-B));
-            }
-            if(node.c+node.a<=C) {
-                q.add(new Node(0,node.b,node.c+node.a));
+            if(node[1]+node[0]<=B) {
+                q.add(new int[] {0,node[0]+node[1],node[2]});
             }
             else {
-                q.add(new Node(node.a+node.c-C,node.b,C));
+                q.add(new int[] {node[0]+node[1]-B,B,node[2]});
             }
-            if(node.c+node.b<=C) {
-                q.add(new Node(node.a,0,node.c+node.b));
+            if(node[1]+node[2]<=B) {
+                q.add(new int[] {node[0],node[1]+node[2],0});
             }
             else {
-                q.add(new Node(node.a,node.b+node.c-C,C));
+                q.add(new int[] {node[0],B,node[2]+node[1]-B});
+            }
+            if(node[2]+node[0]<=C) {
+                q.add(new int[] {0,node[1],node[2]+node[0]});
+            }
+            else {
+                q.add(new int[] {node[0]+node[2]-C,node[1],C});
+            }
+            if(node[2]+node[1]<=C) {
+                q.add(new int[] {node[0],0,node[2]+node[1]});
+            }
+            else {
+                q.add(new int[] {node[0],node[1]+node[2]-C,C});
             }
         }
-    }
-}
-class Node{
-    int a,b,c;
-    Node(int a, int b ,int c){
-        this.a=a;
-        this.b=b;
-        this.c=c;
     }
 }
