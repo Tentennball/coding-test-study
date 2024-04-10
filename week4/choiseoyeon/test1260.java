@@ -1,89 +1,98 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
+public class test1260 {
+	
+	static ArrayList<Integer>[] arr;
+	static boolean[] isVisited; 
 
-public class test2251 {
-    static boolean isVisited[][][];
-    static int A, B, C;
-    
-    static ArrayList<Integer>list = new ArrayList<>();
-    static ArrayList<int[]>ans = new ArrayList<>();
-    static Queue<int[]> q = new LinkedList<>();
-    
-
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        
-        A = Integer.parseInt(st.nextToken());
-        B = Integer.parseInt(st.nextToken());
-        C = Integer.parseInt(st.nextToken());
-        isVisited = new boolean[A+1][B+1][C+1];
-        
-        q.add(new int[] {0,0,C});	// C의 용량만 가득차있음
-        bfs();
-        
-        Collections.sort(list);	// 오름차순으로 출력
-        for(int i=0; i<list.size(); i++) {
-            System.out.print(list.get(i)+" ");
-        }
-    }
-    public static void bfs() {
-    	while(!q.isEmpty()) {
-            int[]node = q.poll();
-            
-            if(isVisited[node[0]][node[1]][node[2]]) {
-                continue;
-            }
-            
-            if(node[0]==0) {	// A 물통이 비었을 경우
-                list.add(node[2]);
-            }
-            
-            
-            isVisited[node[0]][node[1]][node[2]] = true;
-            
-            if(node[0]+node[1]<=A) {
-                q.add(new int[] {node[0]+node[1], 0, node[2]});
-            }
-            else {
-                q.add(new int[] {A ,node[1]+node[0]-A, node[2]});
-            }
-            if(node[0]+node[2]<=A) {
-                q.add(new int[] {node[0]+node[2],node[1],0});
-            }
-            else {
-                q.add(new int[] {A,node[1],node[2]+node[0]-A});
-            }
-            if(node[1]+node[0]<=B) {
-                q.add(new int[] {0,node[0]+node[1],node[2]});
-            }
-            else {
-                q.add(new int[] {node[0]+node[1]-B,B,node[2]});
-            }
-            if(node[1]+node[2]<=B) {
-                q.add(new int[] {node[0],node[1]+node[2],0});
-            }
-            else {
-                q.add(new int[] {node[0],B,node[2]+node[1]-B});
-            }
-            if(node[2]+node[0]<=C) {
-                q.add(new int[] {0,node[1],node[2]+node[0]});
-            }
-            else {
-                q.add(new int[] {node[0]+node[2]-C,node[1],C});
-            }
-            if(node[2]+node[1]<=C) {
-                q.add(new int[] {node[0],0,node[2]+node[1]});
-            }
-            else {
-                q.add(new int[] {node[0],node[1]+node[2]-C,C});
-            }
-        }
-    }
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
+		int V = Integer.parseInt(st.nextToken());
+		
+		arr = new ArrayList[N+1];
+		isVisited = new boolean[N+1];
+		
+		for(int i = 1; i <= N; i++) {
+			arr[i] = new ArrayList<Integer>();
+		}
+		//Arrays.fill(isVisited, false);
+		
+		for(int i = 0; i < M; i++) {
+			st = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			
+			arr[a].add(b);	//양방향 
+			arr[b].add(a);
+		}
+		
+		DFS(V);
+		Arrays.fill(isVisited, false);	//초기화
+		System.out.println();
+		BFS(V);
+		
+		
+	}
+	
+	private static void DFS(int V) {
+		if(isVisited[V])	// 방문한 노드일 경우
+			return;
+		
+		System.out.print(V+" ");
+		isVisited[V] = true;
+		
+		for(int i = 0; i < arr[V].size(); i++) {
+			int min = 1001;	// 정점의 개수 1000
+			
+			for(int j = 0; j < arr[V].size(); j++) {
+				int temp = arr[V].get(j);
+				
+				if(!isVisited[temp])
+					min = Math.min(min, temp);
+			}
+			
+			if(min == 1001)
+				break;
+			DFS(min);	
+		}
+	}
+	
+	private static void BFS(int V) {
+		Queue<Integer> BFS = new LinkedList<Integer>();
+		BFS.offer(V);
+		isVisited[V] = true;
+		
+		while(!BFS.isEmpty()) {
+			int node = BFS.poll();	// BFS의 헤드값(부모) 가져오고 제거
+			System.out.print(node+" ");
+			
+			for(int i = 0; i < arr[node].size(); i++) {
+				int min = 1001;
+				
+				for(int j = 0; j < arr[node].size(); j++) {
+					int temp = arr[node].get(j);
+					
+					if(!isVisited[temp])
+						min = Math.min(min, temp);
+				}
+				
+				if(min == 1001)
+					break;
+				
+				BFS.add(min);
+				isVisited[min] = true;
+			}
+		}
+	}
 }
