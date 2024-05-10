@@ -33,12 +33,12 @@ public class test1260 {
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
 			
-			arr[a].add(b);	//¾ç¹æÇâ 
+			arr[a].add(b);	//ì–‘ë°©í–¥ 
 			arr[b].add(a);
 		}
 		
 		DFS(V);
-		Arrays.fill(isVisited, false);	//ÃÊ±âÈ­
+		Arrays.fill(isVisited, false);	//ì´ˆê¸°í™”
 		System.out.println();
 		BFS(V);
 		
@@ -46,14 +46,14 @@ public class test1260 {
 	}
 	
 	private static void DFS(int V) {
-		if(isVisited[V])	// ¹æ¹®ÇÑ ³ëµåÀÏ °æ¿ì
+		if(isVisited[V])	// ë°©ë¬¸í•œ ë…¸ë“œì¼ ê²½ìš°
 			return;
 		
 		System.out.print(V+" ");
 		isVisited[V] = true;
 		
 		for(int i = 0; i < arr[V].size(); i++) {
-			int min = 1001;	// Á¤Á¡ÀÇ °³¼ö 1000
+			int min = 1001;	// ì •ì ì˜ ê°œìˆ˜ 1000
 			
 			for(int j = 0; j < arr[V].size(); j++) {
 				int temp = arr[V].get(j);
@@ -74,7 +74,7 @@ public class test1260 {
 		isVisited[V] = true;
 		
 		while(!BFS.isEmpty()) {
-			int node = BFS.poll();	// BFSÀÇ Çìµå°ª(ºÎ¸ğ) °¡Á®¿À°í Á¦°Å
+			int node = BFS.poll();	// BFSì˜ í—¤ë“œê°’(ë¶€ëª¨) ê°€ì ¸ì˜¤ê³  ì œê±°
 			System.out.print(node+" ");
 			
 			for(int i = 0; i < arr[node].size(); i++) {
