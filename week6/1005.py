@@ -1,7 +1,6 @@
 import sys
 from collections import deque
 si = sys.stdin.readline
-
 T = int(si())
 for _ in range(T):
     N, K = map(int, si().split())
