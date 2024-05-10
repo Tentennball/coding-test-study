@@ -28,5 +28,4 @@ while(queue):
         if(indegree[i]==0):
             queue.append(i)
         Tdone[i] = max(Tdone[i], Tdone[a]+T[i]) # a는 이전노드고 T[i]는 후의 노드에 누적해주는거
-print(Tdone)
-print(Tdone[-1])
+print(max(Tdone))
